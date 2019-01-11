@@ -7,12 +7,19 @@
 
 using namespace std;
 
+//Dichiarazione Variabili
+
 int yHome = 0, xHome = 0, yBall = 10, xBall = 10, i, a;
 const char* campo[20][20];
+
+//Funzione per la palla
+//TODO: Completarla
 
 void ball() {
 	campo [yBall][xBall] = ".";
 }
+
+//Funzione per il giocatore di casa
 
 void home() {
 	campo[0][yHome] = " ";
@@ -27,16 +34,25 @@ void home() {
 
 int main() {
 	system("cls");
+	for (a = 0; a < 20; a++) {                  //Inizializzazione Matrice
+			for (i = 0; i < 20; i++) {
+				campo[a][i] = " ";
+			}
+		}
 	while (1) {
-		home();
-		for (a = 0; a < 20; a++) {
+		for (a = 0; a < 20; a++) {              //Stampa Matrice
 			for (i = 0; i < 20; i++) {
 				cout << campo[a][i];
 			}
 			cout << endl;
 		}
-		//system("cls");
+		for (a = 0; a < 20; a++) {              //Reset Matrice
+			for (i = 0; i < 20; i++) {
+				campo[a][i] = " ";
+			}
+		}
+		home();
+		system("cls");
 	}
 	return 0;
 }
-
