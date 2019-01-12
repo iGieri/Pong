@@ -66,10 +66,12 @@ void ball() {//Funzione per la palla
         xBall+=3;
 
         switch(xBall){
-            case 62:
+            case 61:
                 xBall = 62;
-            case 63:
+            case 62:
                 xBall = 63;
+            case 63:
+                xBall = 64;
             default:
                 ;
         }
