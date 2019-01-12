@@ -9,7 +9,7 @@ using namespace std;
 
 //Dichiarazione Variabili
 
-int yHome = 0, xHome = 0, yBall = 10, xBall = 10, i, a , yVisitors = 0, xVisitors = 0;
+int yHome = 0, xHome = 0, yBall = 10, xBall = 10, i, a , yVisitors = 0, xVisitors = 0, flag = 0;
 const char* campo[20][70];
 
 //Funzione per la palla
@@ -17,7 +17,13 @@ const char* campo[20][70];
 
 void ball() {
 	campo [yBall][xBall] = ".";
-	xBall++;
+	if (xBall < 63 && flag == 0){
+        xBall+=3;
+	}
+	if (xBall > 63) {
+        flag = 1;
+        xBall-=3;
+	}
 }
 
 //Funzione per il giocatore di casa
@@ -54,6 +60,7 @@ int main() {
 			}
 			cout << endl;
 		}
+		cout<<xBall;
 		for (a = 0; a < 20; a++) {              //Reset Matrice
 			for (i = 0; i < 70; i++) {
 				campo[a][i] = " ";
@@ -63,7 +70,7 @@ int main() {
 		visitors();
 		ball();
 		system("cls");
-		Sleep(17);
+		Sleep(20);
 	}
 	return 0;
 }
