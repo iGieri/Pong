@@ -1,22 +1,65 @@
 #include <iostream>					//cin / cout
 #include "Windows.h"				//GetKeyState
 #include "conio.h"					//_getch
-#include "stdlib.h"					//rand
-#include <thread>					//thread / join
+#include "stdlib.h"					//rand          //inutilizzato
+#include <thread>					//thread / join //inutilizzato
 #include <string>					//string
 
 using namespace std;
 
 //Dichiarazione Variabili
 
-int yHome = 0, xHome = 0, yBall = 10, xBall = 10, i, a , yVisitors = 0, xVisitors = 0, flag = 0;
-const char* campo[20][70];
+int yHome = 0,
+    xHome = 0,
+    yBall = 10,
+    xBall = 10,
+    yVisitors = 0,
+    xVisitors = 0,
+    flag = 0;
 
-//Funzione per la palla
-//TODO: Completarla
+unsigned short i, a;
 
-void ball() {
-	campo [yBall][xBall] = ".";
+char campo[20][70];
+
+//Prototipi funzioni
+
+void ball();
+void visitors();
+void home();
+void initializeMatrix();
+
+
+int main() {
+	system("cls");
+    initializeMatrix();
+
+	while (true) {
+		for (a = 0; a < 20; a++) {              //Stampa Matrice
+			for (i = 0; i < 70; i++) {
+				cout << campo[a][i];
+			}
+			cout << endl;
+		}
+		cout<<xBall;
+		for (a = 0; a < 20; a++) {              //Reset Matrice
+			for (i = 0; i < 70; i++) {
+				campo[a][i] = ' ';
+			}
+		}
+		home();
+		visitors();
+		ball();
+		system("cls");
+		Sleep(60);
+	}
+	return 0;
+}
+
+//Implementazione funzioni
+
+void ball() {//Funzione per la palla
+
+	campo [yBall][xBall] = '.';
 	if (xBall < 63 && flag == 0){
         xBall+=3;
 	}
@@ -31,46 +74,29 @@ void ball() {
 void home() {
 	if (GetKeyState('S') & 0x8000 && yHome < 16) yHome++; //Pressione Freccia Giù e spostamento in basso
 	if (GetKeyState('W') & 0x8000 && yHome > 0) yHome--; //Pressione Freccia Su e spostamento in alto non oltre lo 0 (quindi il bordo della finestra)
-	campo[yHome][0] = "|";
-	campo[yHome + 1][0]= "|";
-	campo[yHome + 2][0] = "|";
-	campo[yHome + 3][0] = "|";
+	campo[yHome][0] = '|';
+	campo[yHome + 1][0]= '|';
+	campo[yHome + 2][0] = '|';
+	campo[yHome + 3][0] = '|';
 }
+
+//Funzione per il giocatore ospite
 
 void visitors() {
 	if (GetKeyState(VK_DOWN) & 0x8000 && yVisitors < 16) yVisitors++; //Pressione Freccia Giù e spostamento in basso
 	if (GetKeyState(VK_UP) & 0x8000 && yVisitors > 0) yVisitors--; //Pressione Freccia Su e spostamento in alto non oltre lo 0 (quindi il bordo della finestra)
-	campo[yVisitors][69] = "|";
-	campo[yVisitors + 1][69]= "|";
-	campo[yVisitors + 2][69] = "|";
-	campo[yVisitors + 3][69] = "|";
+	campo[yVisitors][69] = '|';
+	campo[yVisitors + 1][69]= '|';
+	campo[yVisitors + 2][69] = '|';
+	campo[yVisitors + 3][69] = '|';
 }
 
-int main() {
-	system("cls");
+void initializeMatrix() {
+
 	for (a = 0; a < 20; a++) {                  //Inizializzazione Matrice
 			for (i = 0; i < 70; i++) {
-				campo[a][i] = " ";
+				campo[a][i] = ' ';
 			}
 		}
-	while (1) {
-		for (a = 0; a < 20; a++) {              //Stampa Matrice
-			for (i = 0; i < 70; i++) {
-				cout << campo[a][i];
-			}
-			cout << endl;
-		}
-		cout<<xBall;
-		for (a = 0; a < 20; a++) {              //Reset Matrice
-			for (i = 0; i < 70; i++) {
-				campo[a][i] = " ";
-			}
-		}
-		home();
-		visitors();
-		ball();
-		system("cls");
-		Sleep(20);
-	}
-	return 0;
+
 }
