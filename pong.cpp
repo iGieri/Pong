@@ -31,7 +31,7 @@ void initializeMatrix();
 
 int main() {
 	system("cls");
-    	initializeMatrix();
+    initializeMatrix();
 
 	while (true) {
 		for (a = 0; a < 20; a++) {              //Stampa Matrice
@@ -46,13 +46,13 @@ int main() {
 				campo[a][i] = ' ';
 			}
 		}
-		ball();
 		home();
 		visitors();
+		ball();
 
 		cout << xBall;
 		system("cls");
-		Sleep(60);
+		Sleep(20);
 	}
 	return 0;
 }
@@ -62,24 +62,28 @@ int main() {
 void ball() {//Funzione per la palla
 
 	campo [yBall][xBall] = '.';
-	if (xBall < 63 && flag == 0){
+	if (xBall < 61 && flag == 0){
         xBall+=3;
-
-        switch(xBall){
-            case 61:
-                xBall = 62;
-            case 62:
-                xBall = 63;
-            case 63:
-                xBall = 64;
-            default:
-                ;
-        }
 	}
-	if (xBall > 63) {
+    /*switch(xBall){
+        case 61:
+            xBall = 62;
+        case 62:
+            xBall = 63;
+        case 63:
+            xBall = 64;
+    }*/
+	if (xBall > 60) {
         flag = 1;
         xBall-=3;
 	}
+	if (flag = 1) {
+        xBall-=3;
+	}
+    /*if (xBall < 3 && flag == 1) {
+        flag = 0;
+        xBall += 3;
+	}*/
 }
 
 //Funzione per il giocatore di casa
