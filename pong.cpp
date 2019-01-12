@@ -65,7 +65,14 @@ void ball() {//Funzione per la palla
 	if (xBall < 63 && flag == 0){
         xBall+=3;
 
-        if(xBall - 61 > 0) xBall = xBall + 61;      //non so perché mo funziona, si ringrazia cristo per il suo aiuto
+        switch(xBall){
+            case 62:
+                xBall = 62;
+            case 63:
+                xBall = 63;
+            default:
+                ;
+        }
 	}
 	if (xBall > 63) {
         flag = 1;
