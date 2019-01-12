@@ -31,7 +31,7 @@ void initializeMatrix();
 
 int main() {
 	system("cls");
-    initializeMatrix();
+    	initializeMatrix();
 
 	while (true) {
 		for (a = 0; a < 20; a++) {              //Stampa Matrice
@@ -77,7 +77,7 @@ void ball() {//Funzione per la palla
         flag = 1;
         xBall-=3;
 	}
-	if (flag = 1) {
+	if (flag == 1) {
         xBall-=3;
 	}
     /*if (xBall < 3 && flag == 1) {
