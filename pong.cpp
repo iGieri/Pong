@@ -40,15 +40,17 @@ int main() {
 			}
 			cout << endl;
 		}
-		cout<<xBall;
+
 		for (a = 0; a < 20; a++) {              //Reset Matrice
 			for (i = 0; i < 70; i++) {
 				campo[a][i] = ' ';
 			}
 		}
+		ball();
 		home();
 		visitors();
-		ball();
+
+		cout << xBall;
 		system("cls");
 		Sleep(60);
 	}
@@ -62,6 +64,8 @@ void ball() {//Funzione per la palla
 	campo [yBall][xBall] = '.';
 	if (xBall < 63 && flag == 0){
         xBall+=3;
+
+        if(xBall - 61 > 0) xBall = xBall + 61;      //non so perché mo funziona, si ringrazia cristo per il suo aiuto
 	}
 	if (xBall > 63) {
         flag = 1;
