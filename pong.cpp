@@ -31,7 +31,7 @@ void initializeMatrix();
 
 int main() {
 	system("cls");
-    initializeMatrix();
+    	initializeMatrix();
 
 	while (true) {
 		for (a = 0; a < 20; a++) {              //Stampa Matrice
