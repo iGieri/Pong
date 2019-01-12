@@ -17,6 +17,7 @@ const char* campo[20][70];
 
 void ball() {
 	campo [yBall][xBall] = ".";
+	xBall++;
 }
 
 //Funzione per il giocatore di casa
@@ -28,7 +29,6 @@ void home() {
 	campo[yHome + 1][0]= "|";
 	campo[yHome + 2][0] = "|";
 	campo[yHome + 3][0] = "|";
-	_getch();
 }
 
 void visitors() {
@@ -38,7 +38,6 @@ void visitors() {
 	campo[yVisitors + 1][69]= "|";
 	campo[yVisitors + 2][69] = "|";
 	campo[yVisitors + 3][69] = "|";
-	_getch();
 }
 
 int main() {
@@ -62,7 +61,9 @@ int main() {
 		}
 		home();
 		visitors();
+		ball();
 		system("cls");
+		Sleep(17);
 	}
 	return 0;
 }
