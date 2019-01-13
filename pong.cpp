@@ -15,7 +15,9 @@ int yHome = 0,
     xBall = 10,
     yVisitors = 0,
     xVisitors = 0,
-    flag = 0;
+    flag = 0,
+    flagRimbalzo = 0,
+    movimento = 0;
 
 unsigned short i, a;
 
@@ -31,7 +33,8 @@ void initializeMatrix();
 
 int main() {
 	system("cls");
-    	initializeMatrix();
+    initializeMatrix();
+
 	while (true) {
 		for (a = 0; a < 20; a++) {              //Stampa Matrice
 			for (i = 0; i < 70; i++) {
@@ -61,18 +64,73 @@ int main() {
 void ball() {//Funzione per la palla
 
 	campo [yBall][xBall] = '.';
-	if (xBall < 68 && flag == 0){
-        xBall+=3;
+	//Primo Movimento
+	if (flagRimbalzo == 0) {
+        movimento = rand() % 3;
+        flagRimbalzo = 1;
 	}
+	//Ogni Volta controlla dove deve andare
+    switch(movimento){
+        case 0:
+            xBall++;
+            yBall++;
+            break;
+        case 1:
+            xBall--;
+            yBall++;
+            break;
+        case 2:
+            xBall++;
+            yBall--;
+            break;
+        case 3:
+            xBall--;
+            yBall--;
+            break;
+    }
+    //Rimbalzo a lato destro
 	if (xBall > 68) {
-        flag = 1;
-        xBall-=3;
+        switch (rand() % 1) {
+            case 0:
+                movimento = 3;
+                break;
+            case 1:
+                movimento = 1;
+                break;
+
+        }
 	}
-	if (flag == 1) {
-        xBall-=3;
-	}
+	//Rimbalzo lato sinistro
 	if (xBall < 3) {
-        flag = 0;
+        switch (rand() % 1) {
+            case 0:
+                movimento = 2;
+                break;
+            case 1:
+                movimento = 0;
+                break;
+        }
+	}
+	//Rimbalzo sopra
+	if (yBall < 3) {
+        switch (rand() % 1){
+            case 0:
+                movimento = 1;
+                break;
+            case 1:
+                movimento = 0;
+                break;
+        }
+	}
+	//Rimbalzo sotto
+	if (yBall > 17) {
+        switch (rand() % 1) {
+            case 0:
+                movimento = 3;
+                break;
+            case 1:
+                movimento = 1;
+        }
 	}
 }
 
