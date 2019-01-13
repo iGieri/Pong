@@ -23,13 +23,12 @@ int yHome = 0,
     visitorsScore = 0,
     victory = 5,
     movimento = 0,
-    gameMode,
     flagVisitors = 0,
     flagGameMode = 0;
 
 unsigned short i, a;
 
-string visitor, player;
+string visitor, player, gameMode;
 
 char campo[20][70];
 
@@ -55,7 +54,7 @@ int main() {
     cout << "|                                                 |" << endl;
     cout << "|_________________________________________________|" << endl;
     system("pause");
-    while (1){
+    while (true) {
         system("cls");
         cout << "___________________________________________________" << endl;
         cout << "|                                                 |" << endl;
@@ -68,18 +67,10 @@ int main() {
         cout << "|_________________________________________________|" << endl;
         cout << endl << "Inserisci la modalita' di gioco (Es. 1 o 2) --> ";
         cin >> gameMode;
-        switch (gameMode) {
-            case 1:
-                flagGameMode = 0;
-                break;
-            case 2:
-                flagGameMode = 1;
-                break;
-        }
-        if (!(gameMode == 1 || gameMode == 2)){
-            cout << "Carattere non contemplato" << endl;
-            continue;
-        }
+        if(gameMode == "1") flagGameMode = 0;
+        else if(gameMode == "2") flagGameMode = 1;
+
+        if (!(gameMode == "1" || gameMode == "2")) continue;
         else break;
     }
     system("cls");
