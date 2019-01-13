@@ -18,6 +18,7 @@ int yHome = 0,
     xVisitors = 0,
     flag = 0,
     flagRimbalzo = 0,
+    flagLato = 0,
     movimento = 0;
 
 unsigned short i, a;
@@ -93,48 +94,29 @@ void ball() {//Funzione per la palla
     }
     //Rimbalzo a lato destro
 	if (xBall > 68) {
-        switch (rand() % 1) {
-            case 0:
-                movimento = 1;
-                break;
-            case 1:
-                movimento = 3;
-                break;
-
-        }
+        movimento = 1;
+        flagLato = 1;
 	}
 	//Rimbalzo lato sinistro
 	if (xBall < 3) {
-        switch (rand() % 1) {
-            case 0:
-                movimento = 0;
-                break;
-            case 1:
-                movimento = 0;
-                break;
-        }
+        movimento = 0;
+        flagLato = 0;
 	}
 	//Rimbalzo sopra
 	if (yBall < 3) {
-        switch (rand() % 1){
-            case 0:
-                movimento = 0;
-                break;
-            case 1:
-                movimento = 0;
-                break;
-        }
-	}
+        if(!flagLato)
+            movimento = 0;
+        else
+            movimento = 1;
+    }
 	//Rimbalzo sotto
 	if (yBall > 17) {
-        switch (rand() % 1) {
-            case 0:
-                movimento = 2;
-                break;
-            case 1:
-                movimento = 0;
-                break;
-        }
+        if(!flagLato)
+            movimento = 2;
+        else
+            movimento = 3;
+
+
 	}
 }
 
