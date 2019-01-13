@@ -38,7 +38,7 @@ void ball();
 void visitors();
 void home();
 void resetMatrix();
-
+void hideCursor();
 
 int main() {
     system("cls");
@@ -89,7 +89,7 @@ int main() {
 
 	system("cls");
     resetMatrix();
-
+    hideCursor();
     srand(time(0));
 
 	while (true) {
@@ -242,3 +242,14 @@ void resetMatrix() {
 		}
 
 }
+
+void hideCursor() {
+    HANDLE out = GetStdHandle(STD_OUTPUT_HANDLE);
+
+    CONSOLE_CURSOR_INFO     cursorInfo;
+
+    GetConsoleCursorInfo(out, &cursorInfo);
+    cursorInfo.bVisible = false; // set the cursor visibility
+    SetConsoleCursorInfo(out, &cursorInfo);
+}
+
