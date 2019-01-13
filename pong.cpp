@@ -19,9 +19,14 @@ int yHome = 0,
     flag = 0,
     flagRimbalzo = 0,
     flagLato = 0,
+    homeScore = 0,
+    visitorsScore = 0,
+    victory = 5,
     movimento = 0;
 
 unsigned short i, a;
+
+string visitor, player;
 
 char campo[20][70];
 
@@ -30,12 +35,22 @@ char campo[20][70];
 void ball();
 void visitors();
 void home();
-void initializeMatrix();
+void resetMatrix();
 
 
 int main() {
+
+    cout << "inserire il nome del giocatore di casa: ";
+    cin >> player;
+
+    cout << "inserire il nome del giocatore esterno: ";
+    cin >> visitor;
+
+    cout << "dopo quanti punti viene segnata la vittoria? (default 5): ";
+    cin >> victory;
+
 	system("cls");
-    initializeMatrix();
+    resetMatrix();
 
     srand(time(0));
 
@@ -47,19 +62,27 @@ int main() {
 			cout << endl;
 		}
 
-		for (a = 0; a < 20; a++) {              //Reset Matrice
-			for (i = 0; i < 70; i++) {
-				campo[a][i] = ' ';
-			}
-		}
+		resetMatrix();
+
 		home();
 		visitors();
 		ball();
 
-		cout << xBall << endl << yBall;
+		cout << xBall << endl << yBall << endl;
+		cout << player << ": " << homeScore << " " << visitor << ": " << visitorsScore;
 		system("cls");
-		Sleep(1);
+		Sleep(60);
+
+		if(homeScore == victory || visitorsScore == victory) break;
 	}
+
+	if(homeScore == victory)
+        cout << "il vincitore e' " << player << endl;
+	else
+        cout << "il vincitore e' " << visitor << endl;
+
+    system("pause");
+
 	return 0;
 }
 
@@ -70,11 +93,51 @@ void ball() {//Funzione per la palla
 	campo [yBall][xBall] = '.';
 	//Primo Movimento
 	if (flagRimbalzo == 0) {
-        movimento = (rand() % 4);
+        xBall = 10, yBall = 10;
         flagRimbalzo = 1;
 	}
 	//Ogni Volta controlla dove deve andare
-    switch(movimento){
+    //Rimbalzo a lato destro
+	if (xBall > 68) {
+        if(campo[yBall +1][xBall] == '|'){
+            flagLato = 1;
+            movimento = 1;
+        }
+        else {
+            movimento = 0;
+            flagRimbalzo = 0;
+            homeScore++;
+        }
+	}
+	//Rimbalzo lato sinistro
+	if (xBall < 1) {
+        if(campo[yBall -1][xBall] == '|'){
+            flagLato = 0;
+            movimento = 0;
+        }
+        else {
+            flagRimbalzo = 0;
+            movimento = 0;
+            visitorsScore++;
+        }
+	}
+	//Rimbalzo sopra
+	if (yBall < 2) {
+        if(!flagLato)
+            movimento = 0;
+        else
+            movimento = 1;
+    }
+	//Rimbalzo sotto
+	if (yBall > 17) {
+        if(!flagLato)
+            movimento = 2;
+        else
+            movimento = 3;
+
+
+	}
+	    switch(movimento){
         case 0: //diagonale destra su
             xBall++;
             yBall++;
@@ -92,32 +155,6 @@ void ball() {//Funzione per la palla
             yBall--;
             break;
     }
-    //Rimbalzo a lato destro
-	if (xBall > 68) {
-        movimento = 1;
-        flagLato = 1;
-	}
-	//Rimbalzo lato sinistro
-	if (xBall < 3) {
-        movimento = 0;
-        flagLato = 0;
-	}
-	//Rimbalzo sopra
-	if (yBall < 3) {
-        if(!flagLato)
-            movimento = 0;
-        else
-            movimento = 1;
-    }
-	//Rimbalzo sotto
-	if (yBall > 17) {
-        if(!flagLato)
-            movimento = 2;
-        else
-            movimento = 3;
-
-
-	}
 }
 
 //Funzione per il giocatore di casa
@@ -142,7 +179,7 @@ void visitors() {
 	campo[yVisitors + 3][69] = '|';
 }
 
-void initializeMatrix() {
+void resetMatrix() {
 
 	for (a = 0; a < 20; a++) {                  //Inizializzazione Matrice
 			for (i = 0; i < 70; i++) {
