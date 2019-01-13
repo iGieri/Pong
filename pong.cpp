@@ -22,7 +22,10 @@ int yHome = 0,
     homeScore = 0,
     visitorsScore = 0,
     victory = 5,
-    movimento = 0;
+    movimento = 0,
+    gameMode,
+    flagVisitors = 0,
+    flagGameMode = 0;
 
 unsigned short i, a;
 
@@ -39,14 +42,58 @@ void resetMatrix();
 
 
 int main() {
-
-    cout << "inserire il nome del giocatore di casa: ";
+    system("cls");
+    cout << "___________________________________________________" << endl;
+    cout << "|                                                 |" << endl;
+    cout << "|                  (Ping) Pong                    |" << endl;
+    cout << "|                                                 |" << endl;
+    cout << "|                 Sviluppato da :                 |" << endl;
+    cout << "|                                                 |" << endl;
+    cout << "|                Federico Gerardi                 |" << endl;
+    cout << "|                        &                        |" << endl;
+    cout << "|                Gabriele Onorato                 |" << endl;
+    cout << "|                                                 |" << endl;
+    cout << "|_________________________________________________|" << endl;
+    system("pause");
+    while (1){
+        system("cls");
+        cout << "___________________________________________________" << endl;
+        cout << "|                                                 |" << endl;
+        cout << "|               Modalita' di Gioco:               |" << endl;
+        cout << "|                                                 |" << endl;
+        cout << "|                1) Single Player                 |" << endl;
+        cout << "|                                                 |" << endl;
+        cout << "|                2) Multi Player                  |" << endl;
+        cout << "|                                                 |" << endl;
+        cout << "|_________________________________________________|" << endl;
+        cout << endl << "Inserisci la modalita' di gioco (Es. 1 o 2) --> ";
+        cin >> gameMode;
+        switch (gameMode) {
+            case 1:
+                flagGameMode = 0;
+                break;
+            case 2:
+                flagGameMode = 1;
+                break;
+        }
+        if (!(gameMode == 1 || gameMode == 2)){
+            cout << "Carattere non contemplato" << endl;
+            continue;
+        }
+        else break;
+    }
+    system("cls");
+    cout << "Inserire il nome del giocatore di casa: ";
     cin >> player;
+    if (flagGameMode == 1){
+        cout << "Inserire il nome del giocatore esterno: ";
+        cin >> visitor;
+    }
+    else {
+        visitor = "Visitor";
+    }
 
-    cout << "inserire il nome del giocatore esterno: ";
-    cin >> visitor;
-
-    cout << "dopo quanti punti viene segnata la vittoria? (default 5): ";
+    cout << "Dopo quanti punti viene assegnata la vittoria? (default 5): ";
     cin >> victory;
 
 	system("cls");
@@ -63,10 +110,10 @@ int main() {
 		}
 
 		resetMatrix();
-
 		home();
 		visitors();
 		ball();
+		cout << flagVisitors << endl;
 		cout << player << ": " << homeScore << " " << visitor << ": " << visitorsScore;
 		Sleep(20);
 		system("cls");
@@ -170,12 +217,29 @@ void home() {
 //Funzione per il giocatore ospite
 
 void visitors() {
-	if (GetKeyState(VK_DOWN) & 0x8000 && yVisitors < 16) yVisitors++; //Pressione Freccia Giù e spostamento in basso
-	if (GetKeyState(VK_UP) & 0x8000 && yVisitors > 0) yVisitors--; //Pressione Freccia Su e spostamento in alto non oltre lo 0 (quindi il bordo della finestra)
-	campo[yVisitors][69] = '|';
-	campo[yVisitors + 1][69]= '|';
-	campo[yVisitors + 2][69] = '|';
-	campo[yVisitors + 3][69] = '|';
+    if (flagGameMode == 1){
+        if (GetKeyState(VK_DOWN) & 0x8000 && yVisitors < 16) yVisitors++; //Pressione Freccia Giù e spostamento in basso
+        if (GetKeyState(VK_UP) & 0x8000 && yVisitors > 0) yVisitors--; //Pressione Freccia Su e spostamento in alto non oltre lo 0 (quindi il bordo della finestra)
+    }
+    else {
+        if (yVisitors < 14 && flagVisitors == 0){
+            yVisitors++;
+        }
+        if (yVisitors > 13) {
+            flagVisitors = 1;
+            yVisitors--;
+        }
+        if (flagVisitors == 1) {
+            yVisitors--;
+        }
+        if (yVisitors < 3) {
+            flagVisitors = 0;
+        }
+    }
+    campo[yVisitors][69] = '|';
+    campo[yVisitors + 1][69]= '|';
+    campo[yVisitors + 2][69] = '|';
+    campo[yVisitors + 3][69] = '|';
 }
 
 void resetMatrix() {
@@ -187,4 +251,3 @@ void resetMatrix() {
 		}
 
 }
-
