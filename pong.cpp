@@ -67,11 +67,10 @@ int main() {
 		home();
 		visitors();
 		ball();
-
-		cout << xBall << endl << yBall << endl;
 		cout << player << ": " << homeScore << " " << visitor << ": " << visitorsScore;
+		Sleep(20);
 		system("cls");
-		Sleep(60);
+
 
 		if(homeScore == victory || visitorsScore == victory) break;
 	}
@@ -188,3 +187,4 @@ void resetMatrix() {
 		}
 
 }
+
