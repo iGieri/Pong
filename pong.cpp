@@ -1,9 +1,10 @@
 #include <iostream>					//cin / cout
 #include "Windows.h"				//GetKeyState
 #include "conio.h"					//_getch
-#include "stdlib.h"					//rand          //inutilizzato
+#include <cstdlib>					//rand          //inutilizzato
 #include <thread>					//thread / join //inutilizzato
 #include <string>					//string
+#include <ctime>
 
 using namespace std;
 
@@ -35,6 +36,8 @@ int main() {
 	system("cls");
     initializeMatrix();
 
+    srand(time(0));
+
 	while (true) {
 		for (a = 0; a < 20; a++) {              //Stampa Matrice
 			for (i = 0; i < 70; i++) {
@@ -52,7 +55,7 @@ int main() {
 		visitors();
 		ball();
 
-		cout << xBall;
+		cout << xBall << endl << yBall;
 		system("cls");
 		Sleep(1);
 	}
@@ -66,24 +69,24 @@ void ball() {//Funzione per la palla
 	campo [yBall][xBall] = '.';
 	//Primo Movimento
 	if (flagRimbalzo == 0) {
-        movimento = rand() % 3;
+        movimento = (rand() % 4);
         flagRimbalzo = 1;
 	}
 	//Ogni Volta controlla dove deve andare
     switch(movimento){
-        case 0:
+        case 0: //diagonale destra su
             xBall++;
             yBall++;
             break;
-        case 1:
+        case 1: //diagonale sinistra su
             xBall--;
             yBall++;
             break;
-        case 2:
+        case 2: //diagonale destra giu
             xBall++;
             yBall--;
             break;
-        case 3:
+        case 3: //diagonale sinistra giu
             xBall--;
             yBall--;
             break;
@@ -92,10 +95,10 @@ void ball() {//Funzione per la palla
 	if (xBall > 68) {
         switch (rand() % 1) {
             case 0:
-                movimento = 3;
+                movimento = 1;
                 break;
             case 1:
-                movimento = 1;
+                movimento = 3;
                 break;
 
         }
@@ -104,7 +107,7 @@ void ball() {//Funzione per la palla
 	if (xBall < 3) {
         switch (rand() % 1) {
             case 0:
-                movimento = 2;
+                movimento = 0;
                 break;
             case 1:
                 movimento = 0;
@@ -115,7 +118,7 @@ void ball() {//Funzione per la palla
 	if (yBall < 3) {
         switch (rand() % 1){
             case 0:
-                movimento = 1;
+                movimento = 0;
                 break;
             case 1:
                 movimento = 0;
@@ -126,10 +129,11 @@ void ball() {//Funzione per la palla
 	if (yBall > 17) {
         switch (rand() % 1) {
             case 0:
-                movimento = 3;
+                movimento = 2;
                 break;
             case 1:
-                movimento = 1;
+                movimento = 0;
+                break;
         }
 	}
 }
