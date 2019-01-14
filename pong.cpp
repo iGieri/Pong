@@ -5,6 +5,8 @@
 #include <thread>					//thread / join //inutilizzato
 #include <string>					//string
 #include <ctime>
+#include "stdlib.h"
+
 
 using namespace std;
 
@@ -54,6 +56,7 @@ int main() {
     cout << "|                                                 |" << endl;
     cout << "|_________________________________________________|" << endl;
     system("pause");
+    Beep(600,100);
     while (true) {
         system("cls");
         cout << "___________________________________________________" << endl;
@@ -67,6 +70,7 @@ int main() {
         cout << "|_________________________________________________|" << endl;
         cout << endl << "Inserisci la modalita' di gioco (Es. 1 o 2) --> ";
         cin >> gameMode;
+        Beep(600,100);
         if(gameMode == "1") flagGameMode = 0;
         else if(gameMode == "2") flagGameMode = 1;
 
@@ -76,9 +80,11 @@ int main() {
     system("cls");
     cout << "Inserire il nome del giocatore di casa: ";
     cin >> player;
+    Beep(600,100);
     if (flagGameMode == 1){
         cout << "Inserire il nome del giocatore esterno: ";
         cin >> visitor;
+        Beep(600,100);
     }
     else {
         visitor = "Visitor";
@@ -87,7 +93,7 @@ int main() {
         system("cls");
         cout << "Dopo quanti punti viene assegnata la vittoria? (default 5): ";
         cin >> victory;
-
+        Beep(600,100);
         if(cin.fail()){
             cin.clear();
             cin.ignore(256, '\n');
@@ -112,7 +118,6 @@ int main() {
 		home();
 		visitors();
 		ball();
-		cout << flagVisitors << endl;
 		cout << player << ": " << homeScore << " " << visitor << ": " << visitorsScore;
 		Sleep(20);
 		system("cls");
@@ -124,9 +129,9 @@ int main() {
 	showCursor(true);
 
 	if(homeScore == victory)
-        cout << "il vincitore e' " << player << endl;
+        cout << "\ail vincitore e' " << player << endl;
 	else
-        cout << "il vincitore e' " << visitor << endl;
+        cout << "\ail vincitore e' " << visitor << endl;
 
     system("pause");
 
@@ -140,7 +145,8 @@ void ball() {//Funzione per la palla
 	campo [yBall][xBall] = 'O';
 	//Primo Movimento
 	if (flagRimbalzo == 0) {
-        xBall = 10, yBall = 10;
+        xBall = 35, yBall = 10;
+        movimento = rand() % 3;
         flagRimbalzo = 1;
 	}
 	//Ogni Volta controlla dove deve andare
@@ -149,24 +155,30 @@ void ball() {//Funzione per la palla
         if(campo[yBall +1][xBall] == '|'){
             flagLato = 1;
             movimento = 1;
+            Beep(600,40);
         }
         else {
             movimento = 0;
             flagRimbalzo = 0;
             homeScore++;
+            Beep(1000,70);
         }
+
 	}
 	//Rimbalzo lato sinistro
 	if (xBall < 1) {
         if(campo[yBall -1][xBall] == '|'){
             flagLato = 0;
             movimento = 0;
+            Beep(600,40);
         }
         else {
             flagRimbalzo = 0;
             movimento = 0;
             visitorsScore++;
+            Beep(1000,70);
         }
+
 	}
 	//Rimbalzo sopra
 	if (yBall < 2) {
@@ -174,6 +186,7 @@ void ball() {//Funzione per la palla
             movimento = 0;
         else
             movimento = 1;
+        Beep(600,40);
     }
 	//Rimbalzo sotto
 	if (yBall > 17) {
@@ -181,6 +194,7 @@ void ball() {//Funzione per la palla
             movimento = 2;
         else
             movimento = 3;
+        Beep(600,40);
 
 
 	}
@@ -262,4 +276,3 @@ void showCursor(bool visible) {
     cursorInfo.bVisible = visible;
     SetConsoleCursorInfo(out, &cursorInfo);
 }
-
