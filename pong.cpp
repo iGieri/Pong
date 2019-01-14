@@ -131,7 +131,14 @@ int main() {
         cout << "il vincitore e' " << player << endl;
 	else
         cout << "il vincitore e' " << visitor << endl;
-
+    Beep(523,1050);
+    Beep(494,600);
+    Beep(523,600);
+    Beep(494,600);
+    Beep(392,600);
+    Beep(330,600);
+    Beep(440,600);
+    Beep(330,1050);
     system("pause");
 
 	return 0;
