@@ -129,9 +129,9 @@ int main() {
 	showCursor(true);
 
 	if(homeScore == victory)
-        cout << "\ail vincitore e' " << player << endl;
+        cout << "il vincitore e' " << player << endl;
 	else
-        cout << "\ail vincitore e' " << visitor << endl;
+        cout << "il vincitore e' " << visitor << endl;
 
     system("pause");
 
@@ -152,7 +152,7 @@ void ball() {//Funzione per la palla
 	//Ogni Volta controlla dove deve andare
     //Rimbalzo a lato destro
 	if (xBall > 68) {
-        if(campo[yBall +1][xBall] == '|'){
+        if(campo[yBall +1][xBall] == '|'|| (yBall +1) == (yVisitors -1) || (yBall +1) == (yVisitors +4)){
             flagLato = 1;
             movimento = 1;
             Beep(600,40);
@@ -163,11 +163,11 @@ void ball() {//Funzione per la palla
             homeScore++;
             Beep(1000,70);
         }
-
+ww
 	}
 	//Rimbalzo lato sinistro
 	if (xBall < 1) {
-        if(campo[yBall -1][xBall] == '|'){
+        if(campo[yBall -1][xBall] == '|' || (yBall -1) == (yHome -1) || (yBall -1) == (yHome +4)){
             flagLato = 0;
             movimento = 0;
             Beep(600,40);
