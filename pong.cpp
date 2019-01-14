@@ -38,7 +38,7 @@ void ball();
 void visitors();
 void home();
 void resetMatrix();
-void hideCursor();
+void showCursor(bool);
 
 int main() {
     system("cls");
@@ -83,13 +83,21 @@ int main() {
     else {
         visitor = "Visitor";
     }
+    while(true) {
+        system("cls");
+        cout << "Dopo quanti punti viene assegnata la vittoria? (default 5): ";
+        cin >> victory;
 
-    cout << "Dopo quanti punti viene assegnata la vittoria? (default 5): ";
-    cin >> victory;
+        if(cin.fail()){
+            cin.clear();
+            cin.ignore(256, '\n');
 
+            continue;
+        } else break;
+    }
 	system("cls");
     resetMatrix();
-    hideCursor();
+    showCursor(false);
     srand(time(0));
 
 	while (true) {
@@ -113,6 +121,8 @@ int main() {
 		if(homeScore == victory || visitorsScore == victory) break;
 	}
 
+	showCursor(true);
+
 	if(homeScore == victory)
         cout << "il vincitore e' " << player << endl;
 	else
@@ -127,7 +137,7 @@ int main() {
 
 void ball() {//Funzione per la palla
 
-	campo [yBall][xBall] = '.';
+	campo [yBall][xBall] = 'O';
 	//Primo Movimento
 	if (flagRimbalzo == 0) {
         xBall = 10, yBall = 10;
@@ -243,13 +253,13 @@ void resetMatrix() {
 
 }
 
-void hideCursor() {
+void showCursor(bool visible) {
     HANDLE out = GetStdHandle(STD_OUTPUT_HANDLE);
 
-    CONSOLE_CURSOR_INFO     cursorInfo;
+    CONSOLE_CURSOR_INFO cursorInfo;
 
     GetConsoleCursorInfo(out, &cursorInfo);
-    cursorInfo.bVisible = false; // set the cursor visibility
+    cursorInfo.bVisible = visible;
     SetConsoleCursorInfo(out, &cursorInfo);
 }
 
