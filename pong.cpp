@@ -119,7 +119,6 @@ int main() {
 		visitors();
 		ball();
 		cout << player << ": " << homeScore << " " << visitor << ": " << visitorsScore;
-		Sleep(20);
 		system("cls");
 
 
@@ -163,7 +162,6 @@ void ball() {//Funzione per la palla
             homeScore++;
             Beep(1000,70);
         }
-ww
 	}
 	//Rimbalzo lato sinistro
 	if (xBall < 1) {
