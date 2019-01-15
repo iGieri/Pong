@@ -1,6 +1,5 @@
 #include <iostream>					//cin / cout
 #include "Windows.h"				//GetKeyState
-#include <cstdlib>
 #include <string>					//string
 #include <ctime>          //rand e srand
 
@@ -15,12 +14,12 @@ int yHome = 0,          //coordinate X e Y del giocatore di casa
     xBall = 10,
     yVisitors = 0,      //coordinate X e Y del giocatore ospite
     xVisitors = 0,
-    flagRimbalzo = 0,   //Definiamo le caratteristiche del rimbalzo
-    flagLato = 0,       //Definiamo il lato di rimbalzo
     homeScore = 0,      //statistiche per il punteggio
     visitorsScore = 0,
     victory = 5,
     movimento = 0,
+    flagRimbalzo = 0,   //Definiamo le caratteristiche del rimbalzo
+    flagLato = 0,       //Definiamo il lato di rimbalzo
     flagVisitors = 0,   //Caratteristiche per il single player
     flagGameMode = 0;
 
@@ -100,10 +99,10 @@ int main() {
             continue;
         } else break;
     }
-	system("cls");       //eseguiamo le istruzioni per l'inizio del gioco
-  resetMatrix();
-  showCursor(false);
-  srand(time(0));
+    system("cls");       //eseguiamo le istruzioni per l'inizio del gioco
+    resetMatrix();
+    showCursor(false);
+    srand(time(0));
 
 	while (true) {
 		for (a = 0; a < 20; a++) {              //Stampa Matrice
@@ -148,12 +147,22 @@ int main() {
 void ball() {//Funzione per la palla
 
 	campo [yBall][xBall] = 'O';
-	//Primo Movimento
+	//Primo Movimento e reset in caso di punto
 	if (flagRimbalzo == 0) {
-        xBall = 35, yBall = 10;
-        movimento = rand() % 3;
-        flagLato = rand() % 1;
+        xBall = 35, yBall = 10;     //facciamo partire la palla sempre dalla stessa coordinata.
+        if(flagLato == 0) flagLato = 1;     //invertiamo periodicamente il lato da cui deve partire la palla
+        else flagLato = 0;
+
+        if(!flagLato){          //in base al lato decidiamo i due soli movimenti possibili
+            if((rand() % 2) == 1) movimento = 0;
+            else movimento = 2;
+        }
+        else {
+            if((rand() % 2) == 1) movimento = 1;
+            else movimento = 3;
+        }
         flagRimbalzo = 1;
+
 	}
 	//Ogni Volta controlla dove deve andare
     //Rimbalzo a lato destro
@@ -163,8 +172,7 @@ void ball() {//Funzione per la palla
             movimento = 1;
             Beep(600,40);
         }
-        else {
-            movimento = 0;
+        else {  //in caso di punto segnato.
             flagRimbalzo = 0;
             homeScore++;
             Beep(1000,70);
@@ -177,9 +185,8 @@ void ball() {//Funzione per la palla
             movimento = 0;
             Beep(600,40);
         }
-        else {
+        else {  //in caso di punto segnato.
             flagRimbalzo = 0;
-            movimento = 0;
             visitorsScore++;
             Beep(1000,70);
         }
@@ -203,7 +210,7 @@ void ball() {//Funzione per la palla
 
 
 	}
-	    switch(movimento){
+	    switch(movimento){  //ogni volta controlla dove deve andare
         case 0: //diagonale destra su
             xBall++;
             yBall++;
@@ -230,7 +237,7 @@ void home() {
 	if (GetKeyState('W') & 0x8000 && yHome > 0) yHome--; //Pressione Freccia Su e spostamento in alto non oltre lo 0 (quindi il bordo della finestra)
 	campo[yHome][0] = '|';
 	campo[yHome + 1][0]= '|';
-	campo[yHome + 2][0] = '|';
+	campo[yHome + 2][0] = '|';  //si mette in listening dei comandi di movimento e stampa la barra del giocatore
 	campo[yHome + 3][0] = '|';
 }
 
@@ -241,7 +248,7 @@ void visitors() {
         if (GetKeyState(VK_DOWN) & 0x8000 && yVisitors < 16) yVisitors++; //Pressione Freccia Giù e spostamento in basso
         if (GetKeyState(VK_UP) & 0x8000 && yVisitors > 0) yVisitors--; //Pressione Freccia Su e spostamento in alto non oltre lo 0 (quindi il bordo della finestra)
     }
-    else {
+    else {  //funzione di movimento per il singleplayer
         if (yVisitors < 14 && flagVisitors == 0){
             yVisitors++;
         }
@@ -258,19 +265,23 @@ void visitors() {
     }
     campo[yVisitors][69] = '|';
     campo[yVisitors + 1][69]= '|';
-    campo[yVisitors + 2][69] = '|';
+    campo[yVisitors + 2][69] = '|'; //stampa la barra del giocatore
     campo[yVisitors + 3][69] = '|';
 }
 
+ //Funzione per il reset Matrice
+
 void resetMatrix() {
 
-	for (a = 0; a < 20; a++) {                  //Inizializzazione Matrice
+	for (a = 0; a < 20; a++) {
 			for (i = 0; i < 70; i++) {
 				campo[a][i] = ' ';
 			}
 		}
 
 }
+
+//Funzione per il controllo del cursore della console
 
 void showCursor(bool visible) {
     HANDLE out = GetStdHandle(STD_OUTPUT_HANDLE);
