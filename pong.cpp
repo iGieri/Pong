@@ -1,49 +1,48 @@
 #include <iostream>					//cin / cout
 #include "Windows.h"				//GetKeyState
-#include "conio.h"					//_getch
-#include <cstdlib>					//rand          //inutilizzato
-#include <thread>					//thread / join //inutilizzato
+#include <cstdlib>
 #include <string>					//string
-#include <ctime>
-#include "stdlib.h"
+#include <ctime>          //rand e srand
 
 
 using namespace std;
 
 //Dichiarazione Variabili
 
-int yHome = 0,
+int yHome = 0,          //coordinate X e Y del giocatore di casa
     xHome = 0,
-    yBall = 10,
+    yBall = 10,         //coordinate X e Y della palla
     xBall = 10,
-    yVisitors = 0,
+    yVisitors = 0,      //coordinate X e Y del giocatore ospite
     xVisitors = 0,
-    flag = 0,
-    flagRimbalzo = 0,
-    flagLato = 0,
-    homeScore = 0,
+    flagRimbalzo = 0,   //Definiamo le caratteristiche del rimbalzo
+    flagLato = 0,       //Definiamo il lato di rimbalzo
+    homeScore = 0,      //statistiche per il punteggio
     visitorsScore = 0,
     victory = 5,
     movimento = 0,
-    flagVisitors = 0,
+    flagVisitors = 0,   //Caratteristiche per il single player
     flagGameMode = 0;
 
-unsigned short i, a;
+unsigned short i, //contatori
+               a;
 
-string visitor, player, gameMode;
+string visitor, //Stringhe per i Nomi
+       player,
+       gameMode;
 
-char campo[20][70];
+char campo[20][70]; //Matrice per il campo
 
 //Prototipi funzioni
 
-void ball();
-void visitors();
-void home();
-void resetMatrix();
-void showCursor(bool);
+void ball();    //funzione palla
+void visitors();//funzione per il giocatore ospite
+void home();    //funzione per il giocatore di casa
+void resetMatrix(); //funzione per l'azzeramento della matrice
+void showCursor(bool);//disattivazione del cursore "_"
 
 int main() {
-    system("cls");
+    system("cls");    //stampa della schermata iniziale
     cout << "___________________________________________________" << endl;
     cout << "|                                                 |" << endl;
     cout << "|                  (Ping) Pong                    |" << endl;
@@ -58,7 +57,7 @@ int main() {
     system("pause");
     Beep(600,100);
     while (true) {
-        system("cls");
+        system("cls");  //scelta della modalita' di gioco
         cout << "___________________________________________________" << endl;
         cout << "|                                                 |" << endl;
         cout << "|               Modalita' di Gioco:               |" << endl;
@@ -71,13 +70,13 @@ int main() {
         cout << endl << "Inserisci la modalita' di gioco (Es. 1 o 2) --> ";
         cin >> gameMode;
         Beep(600,100);
-        if(gameMode == "1") flagGameMode = 0;
+        if(gameMode == "1") flagGameMode = 0; //determiniamo se e' single player o multi player
         else if(gameMode == "2") flagGameMode = 1;
 
         if (!(gameMode == "1" || gameMode == "2")) continue;
         else break;
     }
-    system("cls");
+    system("cls");  //inserire i nomi dei giocatori
     cout << "Inserire il nome del giocatore di casa: ";
     cin >> player;
     Beep(600,100);
@@ -90,7 +89,7 @@ int main() {
         visitor = "Visitor";
     }
     while(true) {
-        system("cls");
+        system("cls");    //chiediamo i punti per la vittoria
         cout << "Dopo quanti punti viene assegnata la vittoria? (default 5): ";
         cin >> victory;
         Beep(600,100);
@@ -101,10 +100,10 @@ int main() {
             continue;
         } else break;
     }
-	system("cls");
-    resetMatrix();
-    showCursor(false);
-    srand(time(0));
+	system("cls");       //eseguiamo le istruzioni per l'inizio del gioco
+  resetMatrix();
+  showCursor(false);
+  srand(time(0));
 
 	while (true) {
 		for (a = 0; a < 20; a++) {              //Stampa Matrice
@@ -114,7 +113,7 @@ int main() {
 			cout << endl;
 		}
 
-		resetMatrix();
+		resetMatrix();      //eseguiamo le istruzioni fondamentali
 		home();
 		visitors();
 		ball();
@@ -122,16 +121,16 @@ int main() {
 		system("cls");
 
 
-		if(homeScore == victory || visitorsScore == victory) break;
+		if(homeScore == victory || visitorsScore == victory) break; //opzioni per la vittoria
 	}
 
 	showCursor(true);
 
 	if(homeScore == victory)
-        cout << "il vincitore e' " << player << endl;
+        cout << "il vincitore e' " << player << endl; //determiniamo il vincitore
 	else
         cout << "il vincitore e' " << visitor << endl;
-    Beep(523,1050);
+    Beep(523,1050); //canzone We Are The Champions
     Beep(494,600);
     Beep(523,600);
     Beep(494,600);
@@ -153,6 +152,7 @@ void ball() {//Funzione per la palla
 	if (flagRimbalzo == 0) {
         xBall = 35, yBall = 10;
         movimento = rand() % 3;
+        flagLato = rand() % 1;
         flagRimbalzo = 1;
 	}
 	//Ogni Volta controlla dove deve andare
