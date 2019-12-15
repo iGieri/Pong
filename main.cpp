@@ -26,9 +26,9 @@ int yHome = 0,          //coordinate X e Y del giocatore di casa
 unsigned short i, //contatori
                a;
 
-string visitor, //Stringhe per i Nomi
-       player,
-       gameMode;
+string visitor = "", //Stringhe per i Nomi
+       player = "",
+       gameMode = "";
 
 char campo[20][70]; //Matrice per il campo
 
